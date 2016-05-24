@@ -9,7 +9,7 @@ const char EMPTY = ' ';
 //Прототипы функций
 void instructions();
 char askYesNo(string question);
-char human();
+char humanPiece();
 char opponent(char piece);
 void displayBoard(const vector<char>& board);
 
@@ -23,6 +23,8 @@ int main() {
 	char turn = 'X';
 	displayBoard(board);
 	
+
+	system("pause");
 	return 0;
 }
 
