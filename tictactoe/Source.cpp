@@ -1,16 +1,16 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <vector>
 #include <string>
 using namespace std;
 
-//Глобальные константы
+//Р“Р»РѕР±Р°Р»СЊРЅС‹Рµ РєРѕРЅСЃС‚Р°РЅС‚С‹
 const char EMPTY = ' ';
 const char X = 'X';
 const char O = 'O';
 const char NO_ONE = 'N';
 const char TIE = 'T';
 
-//Прототипы функций
+//РџСЂРѕС‚РѕС‚РёРїС‹ С„СѓРЅРєС†РёР№
 void instructions();
 char askYesNo(string question);
 int askNumber(string question, int high, int low = 0);
@@ -55,8 +55,8 @@ int main() {
 }
 void instructions()
 {
-	cout << "Чтобы совершить ход, введите число от 0 до 8. Число\n";
-	cout << "соответствует позиции на игровой доске, как показано на рисунке:\n\n";
+	cout << "Р§С‚РѕР±С‹ СЃРѕРІРµСЂС€РёС‚СЊ С…РѕРґ, РІРІРµРґРёС‚Рµ С‡РёСЃР»Рѕ РѕС‚ 0 РґРѕ 8. Р§РёСЃР»Рѕ\n";
+	cout << "СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ РїРѕР·РёС†РёРё РЅР° РёРіСЂРѕРІРѕР№ РґРѕСЃРєРµ, РєР°Рє РїРѕРєР°Р·Р°РЅРѕ РЅР° СЂРёСЃСѓРЅРєРµ:\n\n";
 
 	cout << "       0 | 1 | 2\n";
 	cout << "       ---------\n";
@@ -89,7 +89,7 @@ int askNumber(string question, int high, int low)
 }
 char humanPiece()
 {
-	char go_first = askYesNo("Вы будете ходить первым?");
+	char go_first = askYesNo("Р’С‹ Р±СѓРґРµС‚Рµ С…РѕРґРёС‚СЊ РїРµСЂРІС‹Рј?");
 	if (go_first == 'y')
 	{
 		return X;
@@ -121,7 +121,7 @@ void displayBoard(const vector<char>& board)
 }
 char winner(const vector<char>& board)
 {
-	//Все возможные выиграшные ряды
+	//Р’СЃРµ РІРѕР·РјРѕР¶РЅС‹Рµ РІС‹РёРіСЂР°С€РЅС‹Рµ СЂСЏРґС‹
 	const int WINNING_ROWS[8][3] = { { 0, 1, 2 },
 	{ 3, 4, 5 },
 	{ 6, 7, 8 },
@@ -132,8 +132,8 @@ char winner(const vector<char>& board)
 	{ 2, 4, 6 } };
 	const int TOTAL_ROWS = 8;
 
-	// если в одном из выигрышных рядов уже присутствуют три одинаковых значения
-	// (причем они не равны EMPTY), то победитель определился
+	// РµСЃР»Рё РІ РѕРґРЅРѕРј РёР· РІС‹РёРіСЂС‹С€РЅС‹С… СЂСЏРґРѕРІ СѓР¶Рµ РїСЂРёСЃСѓС‚СЃС‚РІСѓСЋС‚ С‚СЂРё РѕРґРёРЅР°РєРѕРІС‹С… Р·РЅР°С‡РµРЅРёСЏ
+	// (РїСЂРёС‡РµРј РѕРЅРё РЅРµ СЂР°РІРЅС‹ EMPTY), С‚Рѕ РїРѕР±РµРґРёС‚РµР»СЊ РѕРїСЂРµРґРµР»РёР»СЃСЏ
 	for (int row = 0; row < TOTAL_ROWS; ++row)
 	{
 		if ((board[WINNING_ROWS[row][0]] != EMPTY) &&
@@ -144,11 +144,11 @@ char winner(const vector<char>& board)
 		}
 	}
 
-	// поскольку победитель не определился, проверяем не наступила ли ничья (остались ли пустые клетки)
+	// РїРѕСЃРєРѕР»СЊРєСѓ РїРѕР±РµРґРёС‚РµР»СЊ РЅРµ РѕРїСЂРµРґРµР»РёР»СЃСЏ, РїСЂРѕРІРµСЂСЏРµРј РЅРµ РЅР°СЃС‚СѓРїРёР»Р° Р»Рё РЅРёС‡СЊСЏ (РѕСЃС‚Р°Р»РёСЃСЊ Р»Рё РїСѓСЃС‚С‹Рµ РєР»РµС‚РєРё)
 	if (count(board.begin(), board.end(), EMPTY) == 0)
 		return TIE;
 
-	//Поскольку победитель не определился, и ничья не наступила, то игра продолжается
+	//РџРѕСЃРєРѕР»СЊРєСѓ РїРѕР±РµРґРёС‚РµР»СЊ РЅРµ РѕРїСЂРµРґРµР»РёР»СЃСЏ, Рё РЅРёС‡СЊСЏ РЅРµ РЅР°СЃС‚СѓРїРёР»Р°, С‚Рѕ РёРіСЂР° РїСЂРѕРґРѕР»Р¶Р°РµС‚СЃСЏ
 	return NO_ONE;
 }
 inline bool isLegal(int move, const vector<char>& board)
@@ -157,13 +157,13 @@ inline bool isLegal(int move, const vector<char>& board)
 }
 int humanMove(const vector<char>& board, char human)
 {
-	int move = askNumber("Куда сходить?", (board.size() - 1));
+	int move = askNumber("РљСѓРґР° СЃС…РѕРґРёС‚СЊ?", (board.size() - 1));
 	while (!isLegal(move, board))
 	{
-		cout << "\nЭта позиция уже занята.\n";
-		move = askNumber("Куда сходить?", (board.size() - 1));
+		cout << "\nР­С‚Р° РїРѕР·РёС†РёСЏ СѓР¶Рµ Р·Р°РЅСЏС‚Р°.\n";
+		move = askNumber("РљСѓРґР° СЃС…РѕРґРёС‚СЊ?", (board.size() - 1));
 	}
-	cout << "Ход сделан...\n";
+	cout << "РҐРѕРґ СЃРґРµР»Р°РЅ...\n";
 
 	return move;
 }
@@ -172,7 +172,7 @@ int computerMove(vector<char> board, char computer)
 	unsigned int move = 0;
 	bool found = false;
 
-	//Если компьютер может выиграть следующим ходом, то он делает это
+	//Р•СЃР»Рё РєРѕРјРїСЊСЋС‚РµСЂ РјРѕР¶РµС‚ РІС‹РёРіСЂР°С‚СЊ СЃР»РµРґСѓСЋС‰РёРј С…РѕРґРѕРј, С‚Рѕ РѕРЅ РґРµР»Р°РµС‚ СЌС‚Рѕ
 	while (!found && move < board.size())
 	{
 		if (isLegal(move, board))
@@ -188,7 +188,7 @@ int computerMove(vector<char> board, char computer)
 		}
 	}
 
-	//Иначе, если человек может победить следущим ходом, то компьютер блокирует этот ход
+	//РРЅР°С‡Рµ, РµСЃР»Рё С‡РµР»РѕРІРµРє РјРѕР¶РµС‚ РїРѕР±РµРґРёС‚СЊ СЃР»РµРґСѓС‰РёРј С…РѕРґРѕРј, С‚Рѕ РєРѕРјРїСЊСЋС‚РµСЂ Р±Р»РѕРєРёСЂСѓРµС‚ СЌС‚РѕС‚ С…РѕРґ
 	if (!found)
 	{
 		move = 0;
@@ -210,14 +210,14 @@ int computerMove(vector<char> board, char computer)
 		}
 	}
 
-	//Иначе занять следующим ходом оптимальную свободную клетку
+	//РРЅР°С‡Рµ Р·Р°РЅСЏС‚СЊ СЃР»РµРґСѓСЋС‰РёРј С…РѕРґРѕРј РѕРїС‚РёРјР°Р»СЊРЅСѓСЋ СЃРІРѕР±РѕРґРЅСѓСЋ РєР»РµС‚РєСѓ
 	if (!found)
 	{
 		move = 0;
 		unsigned int i = 0;
 
 		const int BEST_MOVES[] = { 4, 0, 2, 6, 8, 1, 3, 5, 7 };
-		//Выбрать оптимальную свободную клетку
+		//Р’С‹Р±СЂР°С‚СЊ РѕРїС‚РёРјР°Р»СЊРЅСѓСЋ СЃРІРѕР±РѕРґРЅСѓСЋ РєР»РµС‚РєСѓ
 		while (!found && i <  board.size())
 		{
 			move = BEST_MOVES[i];
@@ -230,23 +230,23 @@ int computerMove(vector<char> board, char computer)
 		}
 	}
 
-	cout << "Мой ход " << move << endl;
+	cout << "РњРѕР№ С…РѕРґ " << move << endl;
 	return move;
 }
 void announceWinner(char winner, char computer, char human)
 {
 	if (winner == computer)
 	{
-		cout << "Победил компьютер.\n";
+		cout << "РџРѕР±РµРґРёР» РєРѕРјРїСЊСЋС‚РµСЂ.\n";
 	}
 
 	else if (winner == human)
 	{
-		cout << "Вы победили.\n";
+		cout << "Р’С‹ РїРѕР±РµРґРёР»Рё.\n";
 	}
 
 	else
 	{
-		cout << "Ничья.\n";
+		cout << "РќРёС‡СЊСЏ.\n";
 	}
 }
