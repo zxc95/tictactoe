@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <string>
 using namespace std;
 
 //Глобальные константы
@@ -7,12 +8,20 @@ const char EMPTY = ' ';
 
 //Прототипы функций
 void instructions();
+char askYesNo(string question);
+char human();
+char opponent(char piece);
+void displayBoard(const vector<char>& board);
 
 int main() {
 	const int NUM_SQUARES = 9;
 	vector<char> board(NUM_SQUARES, EMPTY);
 
 	instructions();
+	char human = humanPiece();
+	char computer = opponent(human);
+	char turn = 'X';
+	displayBoard(board);
 	
 	return 0;
 }
@@ -28,4 +37,51 @@ void instructions()
 	cout << "       ---------\n";
 	cout << "       6 | 7 | 8\n\n";
 
+}
+
+char askYesNo(string question)
+{
+	char response;
+	do
+	{
+		cout << question << " (y/n): ";
+		cin >> response;
+	} while (response != 'y' && response != 'n');
+
+	return response;
+}
+
+char humanPiece()
+{
+	char go_first = askYesNo("Вы будете ходить первым?");
+	if (go_first == 'y')
+	{
+		return 'X';
+	}
+	else
+	{
+		return 'O';
+	}
+}
+
+char opponent(char piece)
+{
+	if (piece == 'X')
+	{
+		return 'O';
+	}
+	else
+	{
+		return 'X';
+	}
+}
+
+void displayBoard(const vector<char>& board)
+{
+	cout << "\n\t" << board[0] << " | " << board[1] << " | " << board[2];
+	cout << "\n\t" << "---------";
+	cout << "\n\t" << board[3] << " | " << board[4] << " | " << board[5];
+	cout << "\n\t" << "---------";
+	cout << "\n\t" << board[6] << " | " << board[7] << " | " << board[8];
+	cout << "\n\n";
 }
