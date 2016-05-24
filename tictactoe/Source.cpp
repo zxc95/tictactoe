@@ -13,10 +13,12 @@ const char TIE = 'T';
 //Прототипы функций
 void instructions();
 char askYesNo(string question);
+int askNumber(string question, int high, int low = 0);
 char humanPiece();
 char opponent(char piece);
 void displayBoard(const vector<char>& board);
 char winner(const vector<char>& board);
+bool isLegal(const vector<char>& board, int move);
 int humanMove(const vector<char>& board, char human);
 int computerMove(vector<char> board, char computer);
 
@@ -72,6 +74,17 @@ char askYesNo(string question)
 	} while (response != 'y' && response != 'n');
 
 	return response;
+}
+int askNumber(string question, int high, int low)
+{
+	int number;
+	do
+	{
+		cout << question << " (" << low << " - " << high << "): ";
+		cin >> number;
+	} while (number > high || number < low);
+
+	return number;
 }
 char humanPiece()
 {
@@ -136,4 +149,20 @@ char winner(const vector<char>& board)
 
 	//Поскольку победитель не определился, и ничья не наступила, то игра продолжается
 	return NO_ONE;
+}
+inline bool isLegal(int move, const vector<char>& board)
+{
+	return (board[move] == EMPTY);
+}
+int humanMove(const vector<char>& board, char human)
+{
+	int move = askNumber("Куда сходить?", (board.size() - 1));
+	while (!isLegal(move, board))
+	{
+		cout << "\nЭта позиция уже занята.\n";
+		move = askNumber("Куда сходить?", (board.size() - 1));
+	}
+	cout << "Ход сделан...\n";
+
+	return move;
 }
