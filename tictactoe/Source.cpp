@@ -21,6 +21,7 @@ char winner(const vector<char>& board);
 bool isLegal(int move, const vector<char>& board);
 int humanMove(const vector<char>& board, char human);
 int computerMove(vector<char> board, char computer);
+void announceWinner(char winner, char computer, char human);
 
 int main() {
 	int move;
@@ -231,4 +232,21 @@ int computerMove(vector<char> board, char computer)
 
 	cout << "Мой ход " << move << endl;
 	return move;
+}
+void announceWinner(char winner, char computer, char human)
+{
+	if (winner == computer)
+	{
+		cout << "Победил компьютер.\n";
+	}
+
+	else if (winner == human)
+	{
+		cout << "Вы победили.\n";
+	}
+
+	else
+	{
+		cout << "Ничья.\n";
+	}
 }
