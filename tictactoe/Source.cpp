@@ -25,7 +25,7 @@ int computerMove(vector<char> board, char computer);
 void announceWinner(char winner, char computer, char human);
 
 int main() {
-	SetConsoleOutputCP(CP_UTF8);
+	SetConsoleOutputCP(1251);
 	int move;
 	const int NUM_SQUARES = 9;
 	vector<char> board(NUM_SQUARES, EMPTY);
