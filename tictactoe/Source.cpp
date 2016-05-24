@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <vector>
 #include <string>
+#include <windows.h>
 using namespace std;
 
 //Глобальные константы
@@ -24,6 +25,7 @@ int computerMove(vector<char> board, char computer);
 void announceWinner(char winner, char computer, char human);
 
 int main() {
+	SetConsoleOutputCP(CP_UTF8);
 	int move;
 	const int NUM_SQUARES = 9;
 	vector<char> board(NUM_SQUARES, EMPTY);
