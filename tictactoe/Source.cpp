@@ -18,7 +18,7 @@ char humanPiece();
 char opponent(char piece);
 void displayBoard(const vector<char>& board);
 char winner(const vector<char>& board);
-bool isLegal(const vector<char>& board, int move);
+bool isLegal(int move, const vector<char>& board);
 int humanMove(const vector<char>& board, char human);
 int computerMove(vector<char> board, char computer);
 
