@@ -166,3 +166,69 @@ int humanMove(const vector<char>& board, char human)
 
 	return move;
 }
+int computerMove(vector<char> board, char computer)
+{
+	unsigned int move = 0;
+	bool found = false;
+
+	//Если компьютер может выиграть следующим ходом, то он делает это
+	while (!found && move < board.size())
+	{
+		if (isLegal(move, board))
+		{
+			board[move] = computer;
+			found = winner(board) == computer;
+			board[move] = EMPTY;
+		}
+
+		if (!found)
+		{
+			++move;
+		}
+	}
+
+	//Иначе, если человек может победить следущим ходом, то компьютер блокирует этот ход
+	if (!found)
+	{
+		move = 0;
+		char human = opponent(computer);
+
+		while (!found && move < board.size())
+		{
+			if (isLegal(move, board))
+			{
+				board[move] = human;
+				found = winner(board) == human;
+				board[move] = EMPTY;
+			}
+
+			if (!found)
+			{
+				++move;
+			}
+		}
+	}
+
+	//Иначе занять следующим ходом оптимальную свободную клетку
+	if (!found)
+	{
+		move = 0;
+		unsigned int i = 0;
+
+		const int BEST_MOVES[] = { 4, 0, 2, 6, 8, 1, 3, 5, 7 };
+		//Выбрать оптимальную свободную клетку
+		while (!found && i <  board.size())
+		{
+			move = BEST_MOVES[i];
+			if (isLegal(move, board))
+			{
+				found = true;
+			}
+
+			++i;
+		}
+	}
+
+	cout << "Мой ход " << move << endl;
+	return move;
+}
