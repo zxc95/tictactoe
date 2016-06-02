@@ -1,15 +1,16 @@
 ﻿#include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 #include <windows.h>
+
 using namespace std;
 
 //Глобальные константы
-const char EMPTY = ' ';
 const char X = 'X';
 const char O = 'O';
-const char NO_ONE = 'N';
+const char EMPTY = ' ';
 const char TIE = 'T';
+const char NO_ONE = 'N';
 
 //Прототипы функций
 void instructions();
@@ -24,37 +25,54 @@ int humanMove(const vector<char>& board, char human);
 int computerMove(vector<char> board, char computer);
 void announceWinner(char winner, char computer, char human);
 
-int main() {
+int main()
+{
 	SetConsoleOutputCP(1251);
 	int move;
 	const int NUM_SQUARES = 9;
 	vector<char> board(NUM_SQUARES, EMPTY);
-
-	instructions();
+	
 	char human = humanPiece();
 	char computer = opponent(human);
 	char turn = X;
-	displayBoard(board);
+	system("cls");
 
 	while (winner(board) == NO_ONE)
 	{
-		if (turn == human)
+		instructions();
+		if (turn == human) //Ход человека
 		{
+			//Запрос хода от человека
+			displayBoard(board);
 			move = humanMove(board, human);
 			board[move] = human;
+			system("cls");
+
+			//Вывод игрового поля после хода
+			instructions();
+			displayBoard(board);
+			cout << "Вы сделали ход - " << move << "\n";
 		}
-		else
+		else //Ход компьютера
 		{
 			move = computerMove(board, computer);
 			board[move] = computer;
+			displayBoard(board);
+			cout << "Ход компьютера - " << move << "\n";
 		}
-		displayBoard(board);
-		turn = opponent(turn);
+		turn = opponent(turn); //Переход хода
+		system("pause");
+		system("cls");
 	}
 
+	//Объявление победителя
+	announceWinner(winner(board), computer, human);
+	displayBoard(board);
 	system("pause");
 	return 0;
 }
+
+//Функции
 void instructions()
 {
 	cout << "Чтобы совершить ход, введите число от 0 до 8. Число\n";
@@ -65,8 +83,8 @@ void instructions()
 	cout << "       3 | 4 | 5\n";
 	cout << "       ---------\n";
 	cout << "       6 | 7 | 8\n\n";
-
 }
+
 char askYesNo(string question)
 {
 	char response;
@@ -78,6 +96,7 @@ char askYesNo(string question)
 
 	return response;
 }
+
 int askNumber(string question, int high, int low)
 {
 	int number;
@@ -89,18 +108,22 @@ int askNumber(string question, int high, int low)
 
 	return number;
 }
+
 char humanPiece()
 {
 	char go_first = askYesNo("Вы будете ходить первым?");
 	if (go_first == 'y')
 	{
+		cout << "\nТогда вы ходите крестиками.\n";
 		return X;
 	}
 	else
 	{
+		cout << "\nТогда вы ходите ноликами.\n";
 		return O;
 	}
 }
+
 char opponent(char piece)
 {
 	if (piece == X)
@@ -112,15 +135,16 @@ char opponent(char piece)
 		return X;
 	}
 }
+
 void displayBoard(const vector<char>& board)
 {
-	cout << "\n\t" << board[0] << " | " << board[1] << " | " << board[2];
-	cout << "\n\t" << "---------";
-	cout << "\n\t" << board[3] << " | " << board[4] << " | " << board[5];
-	cout << "\n\t" << "---------";
-	cout << "\n\t" << board[6] << " | " << board[7] << " | " << board[8];
-	cout << "\n\n";
+	cout << "       " << board[0] << " | " << board[1] << " | " << board[2] << "\n";
+	cout << "       " << "---------" << "\n";
+	cout << "       " << board[3] << " | " << board[4] << " | " << board[5] << "\n";
+	cout << "       " << "---------" << "\n";
+	cout << "       " << board[6] << " | " << board[7] << " | " << board[8] << "\n\n";
 }
+
 char winner(const vector<char>& board)
 {
 	//Все возможные выиграшные ряды
@@ -153,22 +177,24 @@ char winner(const vector<char>& board)
 	//Поскольку победитель не определился, и ничья не наступила, то игра продолжается
 	return NO_ONE;
 }
+
 inline bool isLegal(int move, const vector<char>& board)
 {
 	return (board[move] == EMPTY);
 }
+
 int humanMove(const vector<char>& board, char human)
 {
 	int move = askNumber("Куда сходить?", (board.size() - 1));
 	while (!isLegal(move, board))
 	{
-		cout << "\nЭта позиция уже занята.\n";
+		cout << "\nЭта позиция уже занята. Попробуйте ещё раз.\n";
 		move = askNumber("Куда сходить?", (board.size() - 1));
 	}
-	cout << "Ход сделан...\n";
 
 	return move;
 }
+
 int computerMove(vector<char> board, char computer)
 {
 	unsigned int move = 0;
@@ -232,9 +258,9 @@ int computerMove(vector<char> board, char computer)
 		}
 	}
 
-	cout << "Мой ход " << move << endl;
 	return move;
 }
+
 void announceWinner(char winner, char computer, char human)
 {
 	if (winner == computer)
@@ -252,3 +278,4 @@ void announceWinner(char winner, char computer, char human)
 		cout << "Ничья.\n";
 	}
 }
+
