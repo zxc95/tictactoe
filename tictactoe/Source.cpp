@@ -24,6 +24,7 @@ bool isLegal(int move, const vector<char>& board);
 int humanMove(const vector<char>& board, char human);
 int computerMove(vector<char> board, char computer);
 void announceWinner(char winner, char computer, char human);
+char findEarlyWinner(vector<char> board, char turn);
 
 int main()
 {
@@ -37,11 +38,15 @@ int main()
 	char turn = X;
 	system("cls");
 
+	char earlyWinner = NO_ONE;
+
 	while (winner(board) == NO_ONE)
 	{
 		instructions();
 		if (turn == human) //Ход человека
 		{
+			earlyWinner = findEarlyWinner(board, human);
+			if (earlyWinner != NO_ONE) break;
 			//Запрос хода от человека
 			displayBoard(board);
 			move = humanMove(board, human);
@@ -55,6 +60,8 @@ int main()
 		}
 		else //Ход компьютера
 		{
+			earlyWinner = findEarlyWinner(board, computer);
+			if (earlyWinner != NO_ONE) break;
 			move = computerMove(board, computer);
 			board[move] = computer;
 			displayBoard(board);
@@ -66,7 +73,10 @@ int main()
 	}
 
 	//Объявление победителя
-	announceWinner(winner(board), computer, human);
+	if (earlyWinner != NO_ONE)
+		announceWinner(earlyWinner, computer, human);
+	else
+		announceWinner(winner(board), computer, human);		
 	displayBoard(board);
 	system("pause");
 	return 0;
@@ -277,5 +287,58 @@ void announceWinner(char winner, char computer, char human)
 	{
 		cout << "Ничья.\n";
 	}
+}
+
+char findEarlyWinner(vector<char> board, char turn)
+{
+	//Проверка на существование двух выигрышных комбинаций
+	int winCombo = 0;
+	unsigned int move = 0;
+	char opposer = opponent(turn);
+
+	while (move < board.size())
+	{
+		if (isLegal(move, board))
+		{
+			board[move] = opposer;
+			if (winner(board) == opposer)
+				winCombo++;
+			board[move] = EMPTY;
+		}
+		move++;
+	}
+
+	if (winCombo > 1)
+		return opposer;
+
+	//Проверка на ничью (осталось 2 путые клетки и ход в любую из них не приносит победы)
+	int i = 0;
+	int emptyCounter = 0;
+	move = 0;
+
+	//Количество пустых клеток
+	while (i < board.size())
+	{
+		if (board[i] == EMPTY)
+			emptyCounter++;
+		i++;
+	}
+
+	if (emptyCounter == 2) {
+		while (move < board.size())
+		{
+			if (isLegal(move, board))
+			{
+				board[move] = turn;
+				if (winner(board) == turn)
+					return turn;
+				board[move] = EMPTY;
+			}
+			move++;
+		}
+		return TIE;
+	}
+
+	return NO_ONE;
 }
 
